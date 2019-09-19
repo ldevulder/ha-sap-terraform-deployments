@@ -26,7 +26,7 @@ cluster:
   {% endif %}
   resource_agents:
     - SAPHanaSR
-  ha_exporter: true
+  ha_exporter: false
 
   {% if grains['init_type']|default('all') != 'skip-hana' %}
   configure:
