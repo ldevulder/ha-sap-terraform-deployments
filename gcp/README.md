@@ -117,14 +117,10 @@ In the file [terraform.tfvars](terraform.tfvars.example) there are a number of v
 **Important:** The image used for the iSCSI server **must be at least SLES 15 version** since the iSCSI salt formula is not compatible with lower versions. Use the variable `iscsi_server_boot_image` below.
 * **iscsi_server_boot_image**: the name of the SLES image for the iSCSI server used for SBD stonith.
 * **init_type**: variable controls what is deployed in the cluster nodes. Valid values are `all` (installs HANA and configures cluster), `skip-hana` (does not install HANA, but configures cluster). Defaults to `all`.
-* **iscsidev**: device used by the iSCSI server to provide LUNs.
 * **iscsi_disks**: attached partitions number for iscsi server.
 * **cluster_ssh_pub**: path to a custom ssh public key to upload to the nodes.
 * **cluster_ssh_key**: path to a custom ssh private key to upload to the nodes.
 * **hana_inst_folder**: path where HANA installation master will be downloaded from `GCP Bucket`.
-* **hana_disk_device**: device used by node where HANA will be installed (/dev/sdb by default).
-* **hana_backup_device**: device used by node where HANA backup will be stored (/dev/sdc by default).
-* **hana_inst_disk_device**: device used by node where HANA will be downloaded (/dev/sdd by default).
 * **hana_cluster_vip**: IP address used to configure the hana cluster floating IP. It must be in other subnet than the machines!
 * **ha_sap_deployment_repo**: Repository with HA and Salt formula packages. The latest RPM packages can be found at [https://download.opensuse.org/repositories/network:/ha-clustering:/Factory/{YOUR OS VERSION}](https://download.opensuse.org/repositories/network:/ha-clustering:/Factory/)
 * **scenario_type**: SAP HANA scenario type. Available options: `performance-optimized` and `cost-optimized`.

@@ -40,7 +40,7 @@ resource "null_resource" "iscsi_provisioner" {
 provider: gcp
 role: iscsi_srv
 iscsi_srv_ip: ${var.iscsi_ip}
-iscsidev: ${var.iscsidev}
+iscsidev: ${format("%s%s","/dev/disk/by-id/google-", google_compute_instance.iscsisrv.attached_disk.0.device_name)}
 iscsi_disks: ${var.iscsi_disks}
 qa_mode: ${var.qa_mode}
 reg_code: ${var.reg_code}
@@ -126,9 +126,9 @@ network_domain: "tf.local"
 shared_storage_type: iscsi
 sbd_disk_index: 1
 hana_inst_folder: ${var.hana_inst_folder}
-hana_disk_device: ${var.hana_disk_device}
-hana_backup_device: ${var.hana_backup_device}
-hana_inst_disk_device: ${var.hana_inst_disk_device}
+hana_disk_device: ${format("%s%s","/dev/disk/by-id/google-", element(google_compute_instance.clusternodes.*.attached_disk.0.device_name, count.index))}
+hana_backup_device: ${format("%s%s","/dev/disk/by-id/google-", element(google_compute_instance.clusternodes.*.attached_disk.1.device_name, count.index))}
+hana_inst_disk_device: ${format("%s%s","/dev/disk/by-id/google-", element(google_compute_instance.clusternodes.*.attached_disk.2.device_name, count.index))}
 hana_fstype: ${var.hana_fstype}
 hana_cluster_vip: ${var.hana_cluster_vip}
 gcp_credentials_file: ${var.gcp_credentials_file}
