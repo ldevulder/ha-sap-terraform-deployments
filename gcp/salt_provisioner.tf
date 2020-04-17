@@ -124,7 +124,7 @@ host_ips: [${join(", ", formatlist("'%s'", var.host_ips))}]
 hostname: ${terraform.workspace}-${var.name}${var.ninstances > 1 ? "0${count.index + 1}" : ""}
 network_domain: "tf.local"
 shared_storage_type: iscsi
-sbd_disk_device: /dev/sde
+sbd_disk_index: 1
 hana_inst_folder: ${var.hana_inst_folder}
 hana_disk_device: ${var.hana_disk_device}
 hana_backup_device: ${var.hana_backup_device}
