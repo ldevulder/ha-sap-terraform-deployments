@@ -68,7 +68,7 @@ ers_instance_number: ${var.ers_instance_number}
 pas_instance_number: ${var.pas_instance_number}
 aas_instance_number: ${var.aas_instance_number}
 netweaver_nfs_share: ${var.netweaver_nfs_share}
-nw_inst_disk_device : /dev/sdb
+nw_inst_disk_device: ${format("%s%s","/dev/disk/by-id/google-", element(google_compute_instance.netweaver.*.attached_disk.0.device_name, count.index))}
 hana_cluster_vip: ${var.hana_cluster_vip}
 
 EOF

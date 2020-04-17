@@ -61,12 +61,6 @@ variable "init_type" {
   default = "all"
 }
 
-variable "iscsidev" {
-  description = "device iscsi for iscsi server"
-  type        = string
-  default     = "/dev/sdb"
-}
-
 variable "iscsi_disks" {
   description = "number of partitions attach to iscsi server. 0 means `all`."
   default     = 0
@@ -112,24 +106,6 @@ variable "hana_backup_disk_type" {
 variable "hana_backup_disk_size" {
   type    = string
   default = "416"
-}
-
-variable "hana_disk_device" {
-  description = "device where to install HANA"
-  type        = string
-  default     = "/dev/sdb"
-}
-
-variable "hana_backup_device" {
-  description = "device where HANA backup is stored"
-  type        = string
-  default     = "/dev/sdc"
-}
-
-variable "hana_inst_disk_device" {
-  description = "device where to download HANA"
-  type        = string
-  default     = "/dev/sdd"
 }
 
 variable "hana_fstype" {
