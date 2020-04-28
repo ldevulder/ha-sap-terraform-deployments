@@ -93,3 +93,13 @@ output "netweaver_name" {
 output "netweaver_public_name" {
   value = module.netweaver_node.netweaver_public_name
 }
+
+# For openQA (QA mode)
+
+output openqa_vms {
+  value = concat(module.drbd_node.drbd_name, google_compute_instance.clusternodes.*.name, module.netweaver_node.netweaver_name)
+}
+
+output openqa_ips {
+  value = concat(module.drbd_node.drbd_public_ip, google_compute_instance.clusternodes.*.network_interface.0.access_config.0.nat_ip, module.netweaver_node.netweaver_public_ip)
+}

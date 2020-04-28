@@ -107,3 +107,13 @@ output "netweaver_name" {
 output "netweaver_public_name" {
   value = module.netweaver_node.netweaver_public_name
 }
+
+# For openQA (QA mode)
+
+output openqa_vms {
+  value = concat(module.drbd_node.drbd_name, data.aws_instance.clusternodes.*.id, module.netweaver_node.netweaver_name)
+}
+
+output openqa_ips {
+  value = concat(module.drbd_node.drbd_public_ip, data.aws_instance.clusternodes.*.public_ip, module.netweaver_node.netweaver_public_ip)
+}
