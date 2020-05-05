@@ -202,6 +202,59 @@ variable "background" {
   default     = false
 }
 
+# drbd related variables
+
+variable "drbd_enabled" {
+  description = "enable the DRBD cluster for nfs"
+  default     = false
+}
+
+variable "drbd_machine_type" {
+  description = "machine type for drbd nodes"
+  type        = string
+  default     = "t2.xlarge"
+}
+
+variable "drbd_os_image" {
+  description = "image of the drbd nodes"
+  type        = map(string)
+  default = {
+    "us-east-1"    = "ami-027447d2b7312df2d"
+    "us-east-2"    = "ami-099a51d3b131f3ce2"
+    "us-west-1"    = "ami-0f213357578720889"
+    "us-west-2"    = "ami-0fc86417df3e0f6d4"
+    "ca-central-1" = "ami-0811b93a30ab570f7"
+    "eu-central-1" = "ami-024f50fdc1f2f5603"
+    "eu-west-1"    = "ami-0ca96dfbaf35b0c31"
+    "eu-west-2"    = "ami-00189dbab3fd43af2"
+    "eu-west-3"    = "ami-00e70e3421f053648"
+  }
+}
+
+variable "drbd_data_disk_size" {
+  description = "drbd data disk size"
+  type        = string
+  default     = "10"
+}
+
+variable "drbd_data_disk_type" {
+  description = "drbd data disk type"
+  type        = string
+  default     = "gp2"
+}
+
+variable "drbd_ips" {
+  description = "ip addresses to set to the drbd cluster nodes"
+  type        = list(string)
+  default     = ["10.0.4.11", "10.0.5.12"]
+}
+
+variable "drbd_cluster_vip" {
+  description = "IP address used to configure the drbd cluster floating IP. It must be in other subnet than the machines!"
+  type        = string
+  default     = "192.168.1.30"
+}
+
 # Netweaver variables
 
 variable "netweaver_enabled" {

@@ -40,6 +40,26 @@ primitive fs_{{ res.name }} ocf:heartbeat:Filesystem \
 {% set nic = "nic="~pillar.cluster.interface|default('eth0')|json if cloud_provider == "google-cloud-platform" else "nic="~pillar.cluster.interface|json if pillar.cluster.interface is defined else "" %}
 {%- set cidr_netmask = "cidr_netmask=32" if cloud_provider == "google-cloud-platform" else "" %}
 
+{% if cloud_provider == "amazon-web-services" %}
+property $id="cib-bootstrap-options" \
+    stonith-enabled="true" \
+    stonith-action="off" \
+    stonith-timeout="150s"
+
+primitive rsc_aws_stonith_{{ res.name }}_nfs stonith:external/ec2 \
+    params tag={{ data.instance_tag }} profile={{ data.cluster_profile }} \
+    op start interval=0 timeout=180 \
+    op stop interval=0 timeout=180 \
+    op monitor interval=120 timeout=60 \
+    meta target-role=Started
+
+primitive vip_{{ res.name }}_nfs ocf:suse:aws-vpc-move-ip \
+    params ip={{ data.virtual_ip }} routing_table={{ data.route_table }} \
+    interface={{ pillar.cluster.interface|default('eth0')|json }} profile={{ data.cluster_profile }} \
+    op start interval=0 timeout=180 \
+    op stop interval=0 timeout=180 \
+    op monitor interval=60 timeout=60
+{% else %}
 primitive vip_{{ res.name }}_nfs IPaddr2 \
         params ip={{ res.virtual_ip }} {{ cidr_netmask }} {{ nic }} \
         op monitor interval=10 timeout=20
@@ -48,6 +68,7 @@ primitive vip_{{ res.name }}_nfs IPaddr2 \
 primitive nc_{{ res.name }}_nfs anything \
   params binfile="/usr/bin/socat" cmdline_options="-U TCP-LISTEN:{{ data.probe }},backlog=10,fork,reuseaddr /dev/null" \
   op monitor timeout=20s interval=10 depth=0
+{% endif %}
 {% endif %}
 
 primitive exportfs_work_{{ res.name }} exportfs \

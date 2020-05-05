@@ -38,6 +38,11 @@ cluster:
     template:
       source: /srv/salt/drbd_files/templates/drbd_cluster.j2
       parameters:
-        {% if grains['provider']== "azure" %}
+        {% if grains['provider'] == 'aws' %}
+        virtual_ip: {{ grains['drbd_cluster_vip'] }}
+        route_table: {{ grains['route_table'] }}
+        cluster_profile: {{ grains['aws_cluster_profile'] }}
+        instance_tag: {{ grains['aws_instance_tag'] }}
+        {% elif grains['provider']== "azure" %}
         probe: 61000
         {% endif %}

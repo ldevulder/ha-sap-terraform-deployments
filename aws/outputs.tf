@@ -72,6 +72,24 @@ output "monitoring_public_name" {
   value = join("", data.aws_instance.monitoring.*.public_dns)
 }
 
+# DRBD
+
+output "drbd_ip" {
+  value = module.drbd_node.drbd_ip
+}
+
+output "drbd_public_ip" {
+  value = module.drbd_node.drbd_public_ip
+}
+
+output "drbd_name" {
+  value = module.drbd_node.drbd_name
+}
+
+output "drbd_public_name" {
+  value = module.drbd_node.drbd_public_name
+}
+
 # Netweaver
 
 output "netweaver_ip" {
