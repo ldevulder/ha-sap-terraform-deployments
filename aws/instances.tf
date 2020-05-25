@@ -6,8 +6,14 @@ data "aws_availability_zones" "available" {
 
 # EC2 Instances
 
+module "get_os_image_iscsi" {
+  source   = "./modules/get_os_image"
+  os_image = var.iscsi_os_image
+  os_owner = var.iscsi_os_owner
+}
+
 resource "aws_instance" "iscsisrv" {
-  ami                         = var.iscsi_srv[var.aws_region]
+  ami                         = module.get_os_image_iscsi.image_id
   instance_type               = "t2.micro"
   key_name                    = aws_key_pair.hana-key-pair.key_name
   associate_public_ip_address = true
@@ -46,9 +52,15 @@ module "sap_cluster_policies" {
   route_table_id    = aws_route_table.route-table.id
 }
 
+module "get_os_image_hana" {
+  source   = "./modules/get_os_image"
+  os_image = var.hana_os_image
+  os_owner = var.hana_os_owner
+}
+
 resource "aws_instance" "clusternodes" {
   count                       = var.ninstances
-  ami                         = var.sles4sap[var.aws_region]
+  ami                         = module.get_os_image_hana.image_id
   instance_type               = var.instancetype
   key_name                    = aws_key_pair.hana-key-pair.key_name
   associate_public_ip_address = true
@@ -81,10 +93,15 @@ resource "aws_instance" "clusternodes" {
   }
 }
 
+module "get_os_image_monitoring" {
+  source   = "./modules/get_os_image"
+  os_image = var.monitoring_os_image
+  os_owner = var.monitoring_os_owner
+}
 
 resource "aws_instance" "monitoring" {
   count                       = var.monitoring_enabled == true ? 1 : 0
-  ami                         = var.sles4sap[var.aws_region]
+  ami                         = module.get_os_image_monitoring.image_id
   instance_type               = "t2.micro"
   key_name                    = aws_key_pair.hana-key-pair.key_name
   associate_public_ip_address = true

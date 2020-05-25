@@ -5,7 +5,8 @@ module "drbd_node" {
   name                   = "drbd"
   aws_region             = var.aws_region
   availability_zones     = data.aws_availability_zones.available.names
-  drbd_os_image          = var.drbd_os_image
+  os_image               = var.drbd_os_image
+  os_owner               = var.drbd_os_owner
   drbd_data_disk_size    = var.drbd_data_disk_size
   drbd_data_disk_type    = var.drbd_data_disk_type
   drbd_cluster_vip       = var.drbd_cluster_vip
@@ -40,7 +41,8 @@ module "netweaver_node" {
   name                   = "netweaver"
   aws_region             = var.aws_region
   availability_zones     = data.aws_availability_zones.available.names
-  sles4sap_images        = var.sles4sap
+  os_image               = var.netweaver_os_image
+  os_owner               = var.netweaver_os_owner
   vpc_id                 = aws_vpc.vpc.id
   vpc_cidr_block         = aws_vpc.vpc.cidr_block
   key_name               = aws_key_pair.hana-key-pair.key_name

@@ -1,51 +1,23 @@
 # Launch SLES-HAE of SLES4SAP cluster nodes
 
-# Map used for suse-sles-sap-15-byos-v20180816-hvm-ssd-x86_64
-# SLES4SAP 15 in eu-central-1: ami-024f50fdc1f2f5603
-# Used for cluster nodes
-
-variable "sles4sap" {
-  type = map(string)
-
-  default = {
-    "us-east-1"    = "ami-027447d2b7312df2d"
-    "us-east-2"    = "ami-099a51d3b131f3ce2"
-    "us-west-1"    = "ami-0f213357578720889"
-    "us-west-2"    = "ami-0fc86417df3e0f6d4"
-    "ca-central-1" = "ami-0811b93a30ab570f7"
-    "eu-central-1" = "ami-024f50fdc1f2f5603"
-    "eu-west-1"    = "ami-0ca96dfbaf35b0c31"
-    "eu-west-2"    = "ami-00189dbab3fd43af2"
-    "eu-west-3"    = "ami-00e70e3421f053648"
-  }
-}
-
-# Map used for suse-sles-sap-15-byos-v20180816-hvm-ssd-x86_64
-# SLES4SAP 15 in eu-central-1: ami-024f50fdc1f2f5603
-# Used for iscsi server
-
-variable "iscsi_srv" {
-  type = map(string)
-
-  default = {
-    "us-east-1"    = "ami-027447d2b7312df2d"
-    "us-east-2"    = "ami-099a51d3b131f3ce2"
-    "us-west-1"    = "ami-0f213357578720889"
-    "us-west-2"    = "ami-0fc86417df3e0f6d4"
-    "ca-central-1" = "ami-0811b93a30ab570f7"
-    "eu-central-1" = "ami-024f50fdc1f2f5603"
-    "eu-west-1"    = "ami-0ca96dfbaf35b0c31"
-    "eu-west-2"    = "ami-00189dbab3fd43af2"
-    "eu-west-3"    = "ami-00e70e3421f053648"
-  }
-}
-
 # Variables for type of instances to use and number of cluster nodes
 # Use with: terraform apply -var instancetype=t2.micro -var ninstances=2
 
 variable "instancetype" {
   type    = string
   default = "r3.8xlarge"
+}
+
+variable "hana_os_image" {
+  description = "sles4sap AMI image identifier or a pattern used to find the image name (e.g. suse-sles-sap-15-sp1-byos)"
+  type        = string
+  default     = "suse-sles-sap-15-sp1-byos"
+}
+
+variable "hana_os_owner" {
+  description = "OS image owner"
+  type        = string
+  default     = "amazon"
 }
 
 variable "hana_data_disk_type" {
@@ -120,6 +92,18 @@ variable "hana_fstype" {
   description = "Filesystem type to use for HANA"
   type        = string
   default     = "xfs"
+}
+
+variable "iscsi_os_image" {
+  description = "sles4sap AMI image identifier or a pattern used to find the image name (e.g. suse-sles-sap-15-sp1-byos)"
+  type        = string
+  default     = "suse-sles-sap-15-sp1-byos"
+}
+
+variable "iscsi_os_owner" {
+  description = "OS image owner"
+  type        = string
+  default     = "amazon"
 }
 
 variable "iscsidev" {
@@ -216,19 +200,15 @@ variable "drbd_machine_type" {
 }
 
 variable "drbd_os_image" {
-  description = "image of the drbd nodes"
-  type        = map(string)
-  default = {
-    "us-east-1"    = "ami-027447d2b7312df2d"
-    "us-east-2"    = "ami-099a51d3b131f3ce2"
-    "us-west-1"    = "ami-0f213357578720889"
-    "us-west-2"    = "ami-0fc86417df3e0f6d4"
-    "ca-central-1" = "ami-0811b93a30ab570f7"
-    "eu-central-1" = "ami-024f50fdc1f2f5603"
-    "eu-west-1"    = "ami-0ca96dfbaf35b0c31"
-    "eu-west-2"    = "ami-00189dbab3fd43af2"
-    "eu-west-3"    = "ami-00e70e3421f053648"
-  }
+  description = "sles4sap AMI image identifier or a pattern used to find the image name (e.g. suse-sles-sap-15-sp1-byos)"
+  type        = string
+  default     = "suse-sles-sap-15-sp1-byos"
+}
+
+variable "drbd_os_owner" {
+  description = "OS image owner"
+  type        = string
+  default     = "amazon"
 }
 
 variable "drbd_data_disk_size" {
@@ -262,6 +242,18 @@ variable "netweaver_enabled" {
   default     = false
 }
 
+variable "netweaver_os_image" {
+  description = "sles4sap AMI image identifier or a pattern used to find the image name (e.g. suse-sles-sap-15-sp1-byos)"
+  type        = string
+  default     = "suse-sles-sap-15-sp1-byos"
+}
+
+variable "netweaver_os_owner" {
+  description = "OS image owner"
+  type        = string
+  default     = "amazon"
+}
+
 variable "netweaver_instancetype" {
   description = "VM size for the Netweaver machines. Default to r3.8xlarge"
   type        = string
@@ -290,6 +282,20 @@ variable "netweaver_virtual_ips" {
   description = "virtual ip addresses to set to the netweaver cluster nodes"
   type        = list(string)
   default     = []
+}
+
+# Monitoring
+
+variable "monitoring_os_image" {
+  description = "sles4sap AMI image identifier or a pattern used to find the image name (e.g. suse-sles-sap-15-sp1-byos)"
+  type        = string
+  default     = "suse-sles-sap-15-sp1-byos"
+}
+
+variable "monitoring_os_owner" {
+  description = "OS image owner"
+  type        = string
+  default     = "amazon"
 }
 
 # Specific QA variables
