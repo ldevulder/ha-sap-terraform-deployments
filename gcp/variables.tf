@@ -23,7 +23,7 @@ variable "machine_type" {
 
 variable "iscsi_server_boot_image" {
   type    = string
-  default = "suse-byos-cloud/sles-15-sap-byos"
+  default = "suse-byos-cloud/sles-15-sp1-sap-byos"
 }
 
 variable "machine_type_iscsi_server" {
@@ -37,7 +37,7 @@ variable "region" {
 
 variable "sles4sap_boot_image" {
   type    = string
-  default = "suse-byos-cloud/sles-15-sap-byos"
+  default = "suse-byos-cloud/sles-15-sp1-sap-byos"
 }
 
 variable "storage_url" {
@@ -221,7 +221,7 @@ variable "drbd_machine_type" {
 variable "drbd_image" {
   description = "image of the drbd nodes"
   type        = string
-  default     = "suse-byos-cloud/sles-15-sap-byos"
+  default     = "suse-byos-cloud/sles-15-sp1-sap-byos"
 }
 
 variable "drbd_data_disk_size" {
@@ -264,7 +264,7 @@ variable "netweaver_machine_type" {
 variable "netweaver_image" {
   description = "image of the netweaver nodes"
   type        = string
-  default     = "suse-byos-cloud/sles-15-sap-byos"
+  default     = "suse-byos-cloud/sles-15-sp1-sap-byos"
 }
 
 variable "netweaver_software_bucket" {
