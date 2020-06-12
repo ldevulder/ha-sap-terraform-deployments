@@ -47,6 +47,8 @@ cluster:
         virtual_ip: {{ grains['azure_lb_ip'] }}
         {% elif grains['provider'] == 'gcp' %}
         virtual_ip: {{ grains['hana_cluster_vip'] }}
+        route_table: {{ grains['route_table'] }}
+        vpc_network_name: {{ grains['vpc_network_name'] }}
         {% elif grains['provider'] == 'aws' %}
         virtual_ip: {{ grains['hana_cluster_vip'] }}
         route_table: {{ grains['route_table'] }}
