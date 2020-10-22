@@ -18,7 +18,7 @@ cluster:
     device: /dev/watchdog
   {% endif %}
   join_timeout: 180
-  wait_for_initialization: 20
+  wait_for_initialization: 120
   ntp: pool.ntp.org
   {%- if grains['provider'] == 'libvirt' %}
   sshkeys:
