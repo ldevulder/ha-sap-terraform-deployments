@@ -40,6 +40,11 @@ cluster:
   {% endif %}
   monitoring_enabled: {{ grains['monitoring_enabled']|default(False) }}
   configure:
+    properties:
+      stonith-enabled: true
+      {% if grains['provider'] == 'azure' %}
+      stonith-timeout: 144s
+      {% endif %}
     method: 'update'
     template:
       source: salt://drbd_node/files/templates/drbd_cluster.j2
